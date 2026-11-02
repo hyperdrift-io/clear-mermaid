@@ -8,9 +8,9 @@ Clear Mermaid keeps the Mermaid source. It uses HTML text, CSS, SVG connectors a
 
 ## Connect from ChatGPT or Claude
 
-The hosted connector is being prepared for `https://hyperdrift.io/api/clear-mermaid/mcp`. This revision has protocol and sandbox-browser checks; the public deployment and each chat application's integration must be verified before treating it as available.
+The hosted connector is available at `https://hyperdrift.io/api/clear-mermaid/mcp`. Production MCP requests and the interactive view have been verified in a sandbox browser at desktop and phone widths. ChatGPT and Claude both discover the server in their custom-connector setup; rendering inside an actual conversation has not yet been verified.
 
-Once deployed, add that URL as a custom MCP server with **no authentication**. You do not need Node.js, a local server or an API key.
+Add that URL as a custom MCP server with **no authentication**. You do not need Node.js, a local server or an API key.
 
 - **ChatGPT:** open Plugins, choose the plus button, then Add custom MCP server. Enter the HTTPS URL, choose no authentication and create the plugin. Availability depends on your account and workspace policies. See [OpenAI's current connection instructions](https://developers.openai.com/plugins/deploy/connect-chatgpt).
 - **Claude:** open Customize → Connectors → Add custom connector and enter the server URL. See [Claude's custom connector instructions](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp).
