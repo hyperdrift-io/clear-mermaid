@@ -1,8 +1,19 @@
 import ELK from 'elkjs/lib/elk-api.js';
 import workerURL from 'elkjs/lib/elk-worker.min.js?url';
 
-const elk = new ELK({ workerUrl: workerURL });
+// A sandbox may load this module from another origin, where browser Workers
+// cannot load the asset. ELK's own in-thread Worker keeps the same layout there.
+let elkPromise;
+function getElk() {
+  return elkPromise ??= (async () => {
+    const asset = new URL(workerURL, import.meta.url).href;
+    if (new URL(asset).origin === self.origin) return new ELK({ workerUrl: asset });
+    const { Worker } = await import('elkjs/lib/elk-worker.min.js');
+    return new ELK({ workerFactory: () => new Worker() });
+  })();
+}
 export async function layoutGraph(graph, sizes, { round = 8, width = 900, variant = 'technical' } = {}) {
+  const elk = await getElk();
   const unified = round >= 8;
   // One grammar from round eight: decisions are cards; every other node keeps
   // its technical outline. Legacy variants only select historical treatments.

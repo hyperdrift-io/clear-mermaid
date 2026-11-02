@@ -1,1 +1,4 @@
 renderer/dist/** linguist-generated=true
+
+lib/widget-html.mjs linguist-generated=true
+widget/dist/* linguist-generated=true
