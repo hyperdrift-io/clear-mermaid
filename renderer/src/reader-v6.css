@@ -1,0 +1,66 @@
+/* Round six: colour marks a node role; connections keep one visual language. */
+.v6 { --diagram-edge: light-dark(#44566b, #bfcede); --boundary-fill: light-dark(#edf5fc, #1c344b); --boundary-border: light-dark(#506d89, #99bada); }
+.v6 .node { text-align: center; }
+.v6 .node-content { align-items: center; text-align: center; }
+.v6 .node-label { font-weight: 550; }
+.v6 .node:hover, .v6 .node[aria-pressed=true] { outline: none; }
+.v6 .node[aria-pressed=true], .v6 .node.route-endpoint { background: light-dark(#e8eef4, #2b4054); border-color: var(--diagram-ink); }
+.v6 .node:focus-visible { outline: 3px solid var(--diagram-ink); outline-offset: 3px; }
+.v6.flow .node, .v6.flow .node[aria-pressed=true] { padding: 18px 20px; border-radius: 12px; align-items: stretch; justify-content: center; text-align: center; }
+.v6.flow .node-content { align-items: center; text-align: center; }
+.v6.flow .node:is([data-shape=stadium], [data-shape=rounded], [data-shape=doublecircle]) { border-radius: 999px; background: var(--boundary-fill); border: 1.5px solid var(--boundary-border); }
+.v6.flow .node[data-shape=cylinder] { background: light-dark(#f1eff8, #2e2b43); }
+.v6.flow .node[data-shape=diamond], .v6.flow .node[data-shape=diamond][aria-pressed=true] { padding: 0; border-radius: 12px; }
+.v6.flow .node[data-shape=diamond] .node-content { padding: 20px 22px; }
+.v6.flow .flow-exits { border-radius: 0 0 11px 11px; }
+.v6.flow .flow-exits > span { padding: 12px 10px; justify-content: center; border-top: 1px solid var(--decision-border); color: var(--diagram-ink); }
+.v6.flow .flow-exits > span + span { border-left: 1px solid color-mix(in srgb, var(--decision-border) 45%, transparent); }
+.v6.flow .flow-exits > span:first-child { border-radius: 0 0 0 11px; }
+.v6.flow .flow-exits > span:last-child { border-radius: 0 0 11px 0; }
+.v6 .connections { pointer-events: none; }
+.v6 .edge, .v6 .active .edge { stroke: var(--diagram-edge) !important; }
+.v6 marker { fill: var(--diagram-edge); }
+.v6 .edge { stroke-width: 2; }
+.v6 .edge.thick { stroke-width: 3.5; }
+.v6 .active .edge, .v6 .traced .edge { stroke-width: 3; }
+.v6 .edge-halo { opacity: .85; stroke-width: 5; }
+.v6 .edge-hit { fill: none; stroke: transparent; stroke-width: 24; vector-effect: non-scaling-stroke; cursor: help; pointer-events: stroke; }
+.v6 .edge-hit:focus { outline: none; }
+.v6 .edge-hit:focus-visible { stroke: color-mix(in srgb, var(--diagram-ink) 16%, transparent); stroke-width: 14; }
+.v6 .edge-label { fill: var(--diagram-ink); stroke: var(--diagram-surface); stroke-width: 5; paint-order: stroke; stroke-linejoin: round; pointer-events: none; }
+.v6.labels-hidden .optional-label { display: none; }
+.v6 .active .edge-label { fill: var(--diagram-ink); }
+.label-toggle { padding: 9px 11px; min-height: 38px; border: 1px solid var(--reader-line); border-radius: 7px; background: var(--reader-bg); font-size: 13px; }
+.label-toggle[aria-pressed=true] { background: color-mix(in srgb, var(--reader-ink) 8%, var(--reader-bg)); }
+.route-tooltip { position: fixed; inset: auto; margin: 0; width: max-content; max-width: min(340px, calc(100vw - 24px)); padding: 12px 16px; border: 1px solid var(--diagram-border); border-radius: 10px; background: var(--diagram-surface); color: var(--diagram-ink); font: 14px/1.5 system-ui, sans-serif; overflow-wrap: anywhere; text-align: left; }
+.route-tooltip:popover-open { display: flex; flex-direction: column; gap: 4px; animation: reveal-route 130ms ease-out; }
+.route-tooltip strong { font-weight: 700; }
+@keyframes reveal-route { from { opacity: 0; translate: 0 3px; } to { opacity: 1; translate: 0 0; } }
+/* Easy Flow tests less visual furniture and tracing one selected relationship. */
+.v6.easy .node { border-color: light-dark(#7b8b9b, #8ca5bd); }
+.v6.easy .node-label { font-size: 17px; font-weight: 550; line-height: 1.45; }
+.v6.easy .node[data-shape=diamond] { border-color: var(--decision-border); }
+.v6.easy .node[data-shape=diamond] .node-label { font-weight: 650; }
+.v6.easy .flow-exits { background: color-mix(in srgb, var(--decision-fill) 30%, var(--diagram-surface)); }
+.v6.easy .flow-exits > span { border-top-color: color-mix(in srgb, var(--decision-border) 50%, transparent); }
+.v6.easy .flow-exits > span + span { border-left: none; }
+.v6.easy .edge { stroke-width: 1.8; }
+.v6.easy .edge.thick, .v6.easy .active .edge, .v6.easy .traced .edge { stroke-width: 3; }
+.v6.easy.route-tracing .connections [data-edge]:not(.traced) { opacity: .25; }
+.v6.easy .connections [data-edge] { transition: opacity 130ms ease-out; }
+.v6.easy .node.route-endpoint { border-color: var(--diagram-ink); }
+@media (prefers-reduced-motion: reduce) { .route-tooltip:popover-open { animation: none; }.v6.easy .connections [data-edge] { transition: none; } }
+@media (forced-colors: active) {
+  .v6 .edge, .v6 .active .edge { stroke: CanvasText !important; }.v6 marker { fill: CanvasText; }
+  .v6 .edge-label { fill: CanvasText; stroke: Canvas; }
+  .v6.flow .node, .v6.flow .flow-exits { background: Canvas; border-color: CanvasText; color: CanvasText; }
+  .v6 .node:focus-visible { outline-color: Highlight; }
+  .route-tooltip { background: Canvas; color: CanvasText; border-color: CanvasText; }
+}
+
+.v6:not(.flow) .node:is([data-shape=diamond], [data-shape=cylinder])[aria-pressed=true] { background: transparent; }
+.v6.easy .explore-tools { margin: 12px 20px 0; }
+.v6.easy .explore-tools > summary { width: fit-content; padding: 8px 0; cursor: pointer; font-size: 13px; font-weight: 600; }
+.v6.easy .explore-tools .reading-controls { padding-inline: 0; }
+.v6.easy .reader-help, .v6.easy .selection:has(> p:only-child) { display: none; }
+.v6.easy .reader-toolbar { padding-block: 12px; }

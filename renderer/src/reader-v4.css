@@ -1,0 +1,103 @@
+/* Round four: diagram grammar and hierarchy. Historical rounds keep their CSS. */
+.v4 {
+  --diagram-ink: light-dark(#172b40, #f0f5fc);
+  --diagram-edge: light-dark(#475c73, #b8cce2);
+  --diagram-surface: light-dark(#ffffff, #152435);
+  --diagram-border: light-dark(#60758a, #9db6cf);
+  --decision-fill: light-dark(#fff8e7, #382c14);
+  --decision-ink: light-dark(#644405, #ffe1a2);
+  --decision-border: light-dark(#916718, #dfb65e);
+  container-type: inline-size;
+}
+.v4 .viewport { background-image: none; background-color: light-dark(#fafbfd, #101c29); }
+.v4 .scene { isolation: isolate; }
+.v4 .node-position { display: flex; align-items: stretch; }
+.v4 .node {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; min-height: 64px; gap: 0; padding: 12px 16px;
+  color: var(--diagram-ink); border: 1.5px solid var(--diagram-border);
+  border-radius: 6px; background: var(--diagram-surface); text-align: center;
+  box-shadow: 0 2px 0 light-dark(#172b4012, #00000030);
+}
+.v4 .node-content { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; width: 100%; }
+.v4 .node-label { font: 550 16px/1.4 system-ui, sans-serif; }
+.v4 .node-role { color: var(--decision-ink); font: 650 10px/1.4 system-ui, sans-serif; letter-spacing: .09em; }
+.v4 .node[data-shape=stadium], .v4 .node[data-shape=rounded] { border-radius: 999px; }
+.v4 .node[data-shape=circle], .v4 .node[data-shape=doublecircle] { border-radius: 50%; }
+.v4 .node[data-shape=doublecircle] { border-style: double; border-width: 4px; }
+.v4 .node[data-shape=subroutine] { border-inline-style: double; border-inline-width: 5px; }
+.v4 .node[data-shape=diamond], .v4 .node[data-shape=cylinder] { border: 0; border-radius: 0; box-shadow: none; padding: 0; background: transparent; }
+.v4 .node[data-shape=diamond] .node-content { width: 50%; }
+.v4 .node[data-shape=cylinder] .node-content { padding: 18px 14px 12px; }
+.v4 .node-outline { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.v4 .node-outline path { fill: var(--diagram-surface); stroke: var(--diagram-border); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.v4 .node[data-shape=diamond] .node-outline path { fill: var(--decision-fill); stroke: var(--decision-border); stroke-width: 2; }
+.v4 .node[data-shape=cylinder] .cylinder-rim { fill: none; }
+.v4 .node[aria-pressed=true] { outline: 3px solid var(--reader-accent); outline-offset: 4px; padding: 12px 16px; }
+.v4 .node:is([data-shape=diamond], [data-shape=cylinder])[aria-pressed=true] { padding: 0; }
+.v4 .node:hover { outline: 2px solid var(--reader-accent); outline-offset: 3px; }
+.v4 .node:focus-visible { outline: 3px solid var(--reader-accent); outline-offset: 5px; }
+.measure.v4 { width: auto; }
+.measure.v4 .node { height: auto; }
+.v4 .connections { z-index: 1; }
+.v4 .node-position { z-index: 2; }
+.v4 .edge { stroke: var(--diagram-edge); stroke-width: 1.8; stroke-linejoin: round; }
+.v4 marker { fill: var(--diagram-edge); }
+.v4 .active .edge { stroke: var(--reader-accent); stroke-width: 3; }
+.v4 .edge-label { fill: var(--diagram-ink); font: 550 14px system-ui, sans-serif; }
+.v4 .edge-label-bg { fill: var(--diagram-surface); stroke: var(--diagram-border); stroke-width: .6; }
+
+/* Domain fills get darker with depth in both appearances. Identity is repeated
+   by numbered headings, nesting, border treatment and inset depth, not hue alone. */
+.v4 .domain {
+  --domain-color: light-dark(hsl(var(--domain-hue) 55% 30%), hsl(var(--domain-hue) 62% 79%));
+  --domain-fill: light-dark(oklch(var(--domain-light) 0.025 var(--domain-hue)), oklch(var(--domain-dark) 0.025 var(--domain-hue)));
+  color: var(--diagram-ink); background: linear-gradient(150deg, var(--domain-fill), color-mix(in srgb, var(--domain-fill) 94%, var(--domain-color)));
+  border: 2px solid var(--domain-color); border-radius: 12px;
+  box-shadow: 0 4px 12px light-dark(#172b4014, #00000030);
+}
+.v4 .domain:not([data-depth="0"]) { border: 3px double var(--domain-color); border-radius: 8px; box-shadow: inset 0 3px 7px light-dark(#172b401c, #00000038), 0 1px 0 var(--diagram-surface); }
+.v4 .domain-heading {
+  position: absolute; top: 0; left: 0; right: 0; min-height: 54px;
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  border-bottom: 1px solid var(--domain-color); border-radius: 9px 9px 0 0;
+  background: var(--domain-fill); color: var(--diagram-ink);
+}
+.v4 .domain-heading strong { font: 700 16px/1.35 system-ui, sans-serif; }
+.v4 .domain-code { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding: 2px 6px; border-radius: 4px; color: light-dark(#fff, #142334); background: var(--domain-color); font: 650 12px/1 system-ui, sans-serif; }
+.v4 .domain-depth { margin-left: auto; font: 600 10px/1.3 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--domain-color); }
+
+/* Branches are a single vertical stack, with one shared trunk and equal rows. */
+.v4 .shelf-viewport { max-height: none; overflow: visible; }
+.v4 .shelf-scene { padding: 28px 36px; }
+.v4 .branch-origin { margin: 0 0 28px; padding-left: 16px; }
+.v4 .branch-origin > .small-label { display: none; }
+.v4 .branch-origin .node { width: 320px; min-height: 64px; background: var(--diagram-surface); border-width: 2px; }
+.v4 .branch-grid { position: relative; display: flex; flex-direction: column; gap: 16px; padding-left: 48px; margin-left: 16px; }
+.v4 .branch-grid::before { content: ''; position: absolute; top: -28px; bottom: 32px; left: 0; border-left: 2px solid var(--diagram-edge); }
+.v4 .branch-grid li { position: relative; display: grid; grid-template-columns: 112px minmax(0, 320px); gap: 20px; align-items: center; min-height: 64px; }
+.v4 .branch-grid li::before { content: ''; position: absolute; left: -48px; top: 50%; width: 34px; border-top: 2px solid var(--diagram-edge); }
+.v4 .branch-grid li::after { content: ''; position: absolute; left: -18px; top: calc(50% - 4px); width: 8px; height: 8px; border-right: 2px solid var(--diagram-edge); border-top: 2px solid var(--diagram-edge); transform: rotate(45deg); }
+.v4 .branch-grid .node { min-height: 64px; }
+.v4 .branch-label { font-size: 14px; line-height: 1.4; color: var(--diagram-ink); font-weight: 600; padding: 0; }
+.v4 .branch-label span { display: none; }
+@container (max-width: 520px) {
+  .v4 .shelf-scene { padding: 20px 16px; }
+  .v4 .branch-origin { padding-left: 0; }
+  .v4 .branch-origin .node { width: min(320px, 100%); }
+  .v4 .branch-grid { margin-left: 0; padding-left: 28px; gap: 20px; }
+  .v4 .branch-grid li { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .v4 .branch-grid li::before { left: -28px; top: 50%; width: 17px; }
+  .v4 .branch-grid li::after { left: -15px; }
+  .v4 .branch-grid::before { bottom: 46px; }
+  .v4 .branch-origin { align-items: stretch; }
+}
+@media (forced-colors: active) {
+  .v4 .node, .v4 .domain, .v4 .domain-heading { color: CanvasText; background: Canvas; border-color: CanvasText; box-shadow: none; }
+  .v4 .node-outline path { fill: Canvas; stroke: CanvasText; }
+  .v4 .node[data-shape=diamond] .node-outline path { fill: Canvas; stroke: CanvasText; }
+  .v4 .node-role, .v4 .domain-depth { color: CanvasText; }
+  .v4 .domain-code { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+  .v4 .edge { stroke: CanvasText; }.v4 marker { fill: CanvasText; }
+  .v4 .edge-label { fill: CanvasText; }.v4 .edge-label-bg { fill: Canvas; stroke: CanvasText; }
+}

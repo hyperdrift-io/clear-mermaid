@@ -1,0 +1,31 @@
+/* One current grammar: technical outlines, named question exits, quiet controls. */
+.v8 .node { border-radius: 8px; }
+.v8.roomy .node-label { font-size: 17px; }
+.v8 .node:is([data-shape=stadium], [data-shape=rounded]) { background: var(--boundary-fill); border-color: var(--boundary-border); border-radius: 999px; }
+.v8 .node.flow-node, .v8:not(.flow) .node.flow-node[aria-pressed=true] { padding: 0; border: 1.5px solid var(--decision-border); border-radius: 8px; background: var(--decision-fill); align-items: stretch; }
+.v8 .node.flow-node .node-content { width: 100%; padding: 18px 20px; }
+.v8 .flow-node .node-label { font-weight: 650; }
+.v8 .flow-exits { display: flex; align-items: stretch; background: color-mix(in srgb, var(--decision-fill) 30%, var(--diagram-surface)); border-radius: 0 0 7px 7px; }
+.v8 .flow-exits > span { flex: 1; min-width: 0; display: flex; justify-content: center; align-items: center; padding: 12px 10px; border-top: 1px solid color-mix(in srgb, var(--decision-border) 50%, transparent); font: 650 14px/1.4 system-ui; overflow-wrap: anywhere; }
+.v8 .node.flow-node:is([data-direction=LR], [data-direction=RL]) { flex-direction: row; }
+.v8 .node.flow-node:is([data-direction=LR], [data-direction=RL]) .node-content { flex: 1; min-width: 0; width: auto; }
+.v8 .flow-node:is([data-direction=LR], [data-direction=RL]) .flow-exits { flex: 0 0 108px; display: grid; grid-auto-rows: 1fr; border-radius: 0 7px 7px 0; border-left: 1px solid color-mix(in srgb, var(--decision-border) 50%, transparent); }
+.v8 .flow-node:is([data-direction=LR], [data-direction=RL]) .flow-exits > span { border: 0; min-height: 44px; padding: 10px 8px; }
+.v8 .flow-node:is([data-direction=LR], [data-direction=RL]) .flow-exits > span + span { border-top: 1px solid color-mix(in srgb, var(--decision-border) 25%, transparent); }
+.v8 .node.flow-node[data-direction=RL] { flex-direction: row-reverse; }
+.v8 .flow-node[data-direction=RL] .flow-exits { border-left: 0; border-right: 1px solid color-mix(in srgb, var(--decision-border) 50%, transparent); border-radius: 7px 0 0 7px; }
+.v8 .node.flow-node[data-direction=BT] { flex-direction: column-reverse; }
+.v8 .flow-node[data-direction=BT] .flow-exits { border-radius: 7px 7px 0 0; }
+.v8 .flow-node[data-direction=BT] .flow-exits > span { border-top: 0; border-bottom: 1px solid color-mix(in srgb, var(--decision-border) 50%, transparent); }
+.v8 .explore-tools { margin: 12px 20px 0; }
+.v8 .explore-tools > summary { width: fit-content; padding: 8px 0; cursor: pointer; font-size: 13px; font-weight: 600; }
+.v8 .explore-tools .reading-controls { padding-inline: 0; }
+.v8 .reader-help, .v8 .selection:has(> p:only-child) { display: none; }
+.v8 .reader-toolbar { padding-block: 12px; }
+.v8.route-tracing .connections [data-edge]:not(.traced) { opacity: .25; }
+.v8 .connections [data-edge] { transition: opacity 130ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .v8 .connections [data-edge] { transition: none; } }
+@media (forced-colors: active) {
+  .v8 .node.flow-node, .v8 .flow-exits { background: Canvas; color: CanvasText; }
+  .v8 .flow-exits, .v8 .flow-exits > span, .v8 .node.flow-node { border-color: CanvasText !important; }
+}

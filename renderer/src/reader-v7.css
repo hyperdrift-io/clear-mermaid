@@ -1,0 +1,16 @@
+/* Flow is a presentation choice, independent of graph direction. */
+.v7.flow .node { min-height: 64px; padding: 12px 16px; }
+.v7.flow .node-label { font-size: 16px; }
+.v7.flow:not(.terminal-fanout) .node:is([data-direction=TD], [data-direction=TB], [data-direction=BT]) .node-label { font-size: 17px; }
+.v7.flow .node[data-shape=diamond] .node-content { padding: 18px 20px; }
+.v7.flow .node[data-shape=diamond]:is([data-direction=LR], [data-direction=RL]) { flex-direction: row; align-items: stretch; }
+.v7.flow .node[data-shape=diamond]:is([data-direction=LR], [data-direction=RL]) .node-content { flex: 1; min-width: 0; width: auto; }
+.v7.flow .node:is([data-direction=LR], [data-direction=RL]) .flow-exits { flex: 0 0 108px; display: grid; grid-auto-rows: 1fr; border-radius: 0 11px 11px 0; border-left: 1px solid color-mix(in srgb, var(--decision-border) 50%, transparent); }
+.v7.flow .node:is([data-direction=LR], [data-direction=RL]) .flow-exits > span { border: 0; border-radius: 0; min-height: 44px; padding: 10px 8px; }
+.v7.flow .node:is([data-direction=LR], [data-direction=RL]) .flow-exits > span + span { border-top: 1px solid color-mix(in srgb, var(--decision-border) 25%, transparent); }
+.v7.flow .node[data-shape=diamond][data-direction=RL] { flex-direction: row-reverse; }
+.v7.flow .node[data-direction=RL] .flow-exits { border-left: 0; border-right: 1px solid color-mix(in srgb, var(--decision-border) 50%, transparent); border-radius: 11px 0 0 11px; }
+.v7.flow .node[data-shape=diamond][data-direction=BT] { flex-direction: column-reverse; }
+.v7.flow .node[data-direction=BT] .flow-exits { border-radius: 11px 11px 0 0; }
+.v7.flow .node[data-direction=BT] .flow-exits > span { border-top: 0; border-bottom: 1px solid color-mix(in srgb, var(--decision-border) 50%, transparent); border-radius: 0; }
+@media (forced-colors: active) { .v7.flow .flow-exits, .v7.flow .flow-exits > span { border-color: CanvasText !important; } }
